@@ -1,28 +1,37 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from .forms import SuperuserLoginForm
-
-# Create your views here.
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
 
 
-def admin_login(request):
+def custom_login_view(request):
     if request.method == 'POST':
-        form = SuperuserLoginForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            if user.is_superuser:  # Ensure the user is a superuser
-                login(request, user)
-                request.session['user'] = user.username
-                return redirect('index')
-    else:
-        form = SuperuserLoginForm()
-    return render(request, 'login.html', {'form': form})
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')  # Redirect to 'home/index.html'
+        else:
+            return HttpResponse('Invalid login credentials')
+    return render(request, 'login.html')
 
-def index(request):
-    
-    context = {
-        'username':request.session['user']
-    }
-    
-    return render(request,'Home/home.html',context=context)
 
+def home_view(request):
+    return render(request, 'index.html')
+
+def forms(request):
+    return render(request,'forms.html')
+
+def tables(request):
+    return render(request,'tables.html')
+
+# ///////////////////////////////////////////////////
+
+def product(request):
+    return render(request,'Product/product.html')
+
+def staff(request):
+    return render(request,'Staff/staff.html')
+
+def branch(request):
+    return render(request,'Branch/branchs.html')
