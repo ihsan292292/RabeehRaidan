@@ -40,11 +40,9 @@ def custom_logout_view(request):
 
 # index
 def home_view(request):
-    user = request.session['user']
-    context = {
-        'user':user
-    }
-    return render(request, 'index.html',context=context)
+
+    
+    return render(request, 'index.html')
 
 def forms(request):
     return render(request,'forms.html')
