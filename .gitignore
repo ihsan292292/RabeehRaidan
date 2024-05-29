@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ### Django ###
 
 *.pyc
@@ -43,6 +42,3 @@ env
 **/docker-compose*
 **/compose*
 **/Dockerfile*
-=======
-__pycache__
->>>>>>> main
