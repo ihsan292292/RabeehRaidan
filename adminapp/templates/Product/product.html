@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div id="body" class="active">
+    <!-- navbar navigation component -->
+    {% include 'includes/navbar.html' %}
+
+    <div class="content">
+        <div class="container">
+            <div class="page-title">
+                <h3>Add New</h3>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">ADD FOOD ITEMS</div>
+                        <div class="card-body">
+                            <h5 class="card-title"></h5>
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Item Name</label>
+                                    <input type="text" name="name" placeholder="Item Name" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="price" class="form-label">Item Price</label>
+                                    <input type="text" name="price" placeholder="Item Price" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="submit" class="btn btn-primary">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% include 'includes/messages.html' %}
+
+            <div class="page-title">
+                <h3>List</h3>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card card-table">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-center mb-0 datatable" id="table_id">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for product in prds %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ product.name }}</td>
+                                            <td>{{ product.price }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-primary edit-button" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{ product.id }}" data-name="{{ product.name }}" data-price="{{ product.price }}">Edit</button>
+                                                <button type="button" class="btn btn-outline-danger delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ product.id }}">Delete</button>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editModal" role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Product</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-start">
+                            <form method="post" id="editForm">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" id="editProductId">
+                                <div class="mb-3">
+                                    <label for="editName" class="form-label">Item Name</label>
+                                    <input type="text" name="name" id="editName" placeholder="Item Name" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editPrice" class="form-label">Item Price</label>
+                                    <input type="text" name="price" id="editPrice" placeholder="Item Price" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="submit" class="btn btn-primary" value="Update">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal" role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Delete Product</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-start">
+                            <p>Are you sure you want to delete this product?</p>
+                            <form method="post" id="deleteForm">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" id="deleteProductId">
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var editButtons = document.querySelectorAll('.edit-button');
+                    var deleteButtons = document.querySelectorAll('.delete-button');
+
+                    editButtons.forEach(function(button) {
+                        button.addEventListener('click', function() {
+                            var productId = this.getAttribute('data-id');
+                            var productName = this.getAttribute('data-name');
+                            var productPrice = this.getAttribute('data-price');
+
+                            document.getElementById('editProductId').value = productId;
+                            document.getElementById('editName').value = productName;
+                            document.getElementById('editPrice').value = productPrice;
+                        });
+                    });
+
+                    deleteButtons.forEach(function(button) {
+                        button.addEventListener('click', function() {
+                            var productId = this.getAttribute('data-id');
+                            document.getElementById('deleteProductId').value = productId;
+                        });
+                    });
+                });
+            </script>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
