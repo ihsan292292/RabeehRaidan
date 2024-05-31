@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from adminapp.models import *
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -7,5 +9,31 @@ from django.shortcuts import render
 def index(request):
     return render(request,'home/index.html')
 
+# customer reg
+def register_customer(request):
+    if request.method == 'POST':
+        # Extracting user data from the POST request
+        username = request.POST.get('username')
+        phone = request.POST.get('phone')
+        
+        # Creating a new User instance
+        user = User.objects.create_user(username=username)
+        
+        # Creating a new Customer instance
+        customer = Customer(user=user, phone=phone)
+        customer.save()
+        
+        return HttpResponse('Reg succesfull')
+    else:
+        return redirect('index')
+
+# productdisplay    
+def productdisplay(request):
+    product = Product.objects.all()
+    branches = Branch.objects.all()
+    context = {'product':product,
+               'branches':branches}
+    return render(request,'product/productdisplay.html',context)
+        
 def cart_view(request):
-    return render(request,'home/cart.html')
+    return render(request,'cart/cart.html')
