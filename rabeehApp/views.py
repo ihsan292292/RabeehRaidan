@@ -23,7 +23,7 @@ def register_customer(request):
         customer = Customer(user=user, phone=phone)
         customer.save()
         
-        return HttpResponse('Reg succesfull')
+        return redirect('productdisplay')
     else:
         return redirect('index')
 

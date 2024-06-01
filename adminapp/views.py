@@ -55,6 +55,7 @@ def tables(request):
 # PRODUCT CRUD
 def product(request):
     prds = Product.objects.all()
+    branches = Branch.objects.all()
     if request.method == "POST" and 'name' in request.POST and 'price' in request.POST and not 'product_id' in request.POST:
         name = request.POST.get('name')
         price = request.POST.get('price')
@@ -80,7 +81,8 @@ def product(request):
         return redirect('product')
 
     context = {
-        'prds': prds
+        'prds': prds,
+        'branches':branches
     }
     return render(request, 'Product/product.html', context=context)
 
