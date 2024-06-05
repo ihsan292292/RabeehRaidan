@@ -59,7 +59,9 @@ def product(request):
     if request.method == "POST" and 'name' in request.POST and 'price' in request.POST and not 'product_id' in request.POST:
         name = request.POST.get('name')
         price = request.POST.get('price')
-        prd = Product(name=name, price=price)
+        branch_id = request.POST.get('branch')
+        branch = Branch.objects.get(id=branch_id)
+        prd = Product(name=name, price=price,branch=branch_id)
         prd.save()
         messages.success(request, f'{name} Added Successfully!')
     elif request.method == "POST" and 'product_id' in request.POST:
@@ -71,6 +73,7 @@ def product(request):
             prd = Product.objects.get(id=product_id)
             prd.name = name
             prd.price = price
+            prd.branch = branch
             prd.save()
             messages.success(request, f'{name} Updated Successfully!')
         else:

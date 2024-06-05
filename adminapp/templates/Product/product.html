@@ -60,6 +60,7 @@
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Price</th>
+                                            <th>Branch</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -69,6 +70,7 @@
                                             <td>{{ forloop.counter }}</td>
                                             <td>{{ product.name }}</td>
                                             <td>{{ product.price }}</td>
+                                            <td>{{ product.branch.location }}</td>
                                             <td>
                                                 <button type="button" class="btn btn-outline-primary edit-button" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{ product.id }}" data-name="{{ product.name }}" data-price="{{ product.price }}">Edit</button>
                                                 <button type="button" class="btn btn-outline-danger delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ product.id }}">Delete</button>
@@ -102,6 +104,14 @@
                                 <div class="mb-3">
                                     <label for="editPrice" class="form-label">Item Price</label>
                                     <input type="text" name="price" id="editPrice" placeholder="Item Price" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="branch" class="form-label">Branch</label>
+                                    <select name="branch" class="form-control" required>
+                                        {% for branch in branches %}
+                                            <option value="{{ branch.id }}">{{ branch.location }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <input type="submit" class="btn btn-primary" value="Update">
