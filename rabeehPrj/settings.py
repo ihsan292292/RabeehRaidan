@@ -103,8 +103,12 @@ WSGI_APPLICATION = 'rabeehPrj.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': dj_database_url.config(default='postgres://rabeehdb_user:IJChhNBhkVXxG82O43aJbr92gVxBpZTr@dpg-cpc9mq6ct0pc738mo2n0-a.oregon-postgres.render.com/rabeehdb')
+# }
+
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://rabeehdb_user:IJChhNBhkVXxG82O43aJbr92gVxBpZTr@dpg-cpc9mq6ct0pc738mo2n0-a.oregon-postgres.render.com/rabeehdb')
+    'default': dj_database_url.config(default='postgres://rabeehdb_fp9y_user:izFtMH2JiBATA3ker0VlGdXcqm3fM2IR@dpg-cphhlvgl6cac73a1dang-a.oregon-postgres.render.com/rabeehdb_fp9y')
 }
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -166,3 +170,9 @@ SWAGGER_SETTINGS = {
         }
     }
 }
+
+import os
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+#it defines the local filesystem path where media files will be stored
+
+MEDIA_URL = '/media/'

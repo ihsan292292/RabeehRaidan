@@ -24,22 +24,23 @@ class Staff(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=100)
     price = models.IntegerField()
-    
+    branch = models.ForeignKey(Branch,on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='product/')
     def __str__(self):
         return self.name
     
-class Customer(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    phone = models.CharField(max_length=50)
-    
-    def __str__(self):
-        return self.user.username
-    
 class Order(models.Model):
-    user = models.ForeignKey(Customer,on_delete=models.CASCADE)
     item = models.ForeignKey(Product,on_delete=models.CASCADE)
     price = models.IntegerField()
     location = models.ForeignKey(Branch,on_delete=models.CASCADE)
     
     def __str__(self):
         return self.item
+    
+class Customer(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    phone = models.CharField(max_length=50)
+    order = models.ForeignKey(Order,on_delete=models.CASCADE,null=True)
+    def __str__(self):
+        return self.user.username
+    

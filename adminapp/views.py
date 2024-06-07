@@ -60,8 +60,9 @@ def product(request):
         name = request.POST.get('name')
         price = request.POST.get('price')
         branch_id = request.POST.get('branch')
-        branch = Branch.objects.get(id=branch_id)
-        prd = Product(name=name, price=price,branch=branch_id)
+        branchi = Branch.objects.get(id=branch_id)
+    
+        prd = Product(name=name, price=price,branch=branchi)
         prd.save()
         messages.success(request, f'{name} Added Successfully!')
     elif request.method == "POST" and 'product_id' in request.POST:

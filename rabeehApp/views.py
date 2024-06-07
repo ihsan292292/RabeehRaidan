@@ -15,6 +15,11 @@ def register_customer(request):
         # Extracting user data from the POST request
         username = request.POST.get('username')
         phone = request.POST.get('phone')
+
+        # Check if the user already exists
+        if User.objects.filter(username=username).exists():
+            # If user exists, redirect to product display
+            return redirect('productdisplay')
         
         # Creating a new User instance
         user = User.objects.create_user(username=username)
@@ -22,11 +27,9 @@ def register_customer(request):
         # Creating a new Customer instance
         customer = Customer(user=user, phone=phone)
         customer.save()
-        
         return redirect('productdisplay')
     else:
         return redirect('index')
-
 # productdisplay    
 def productdisplay(request):
     product = Product.objects.all()
