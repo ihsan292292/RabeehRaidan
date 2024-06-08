@@ -84,6 +84,21 @@
     document.getElementById("demo").innerHTML = "Latitude: " + latitude + "<br>Longitude: " + longitude;
   }
   </script>
+  <!-- <script>
+    $(document).ready(function() {
+        $('#branches').change(function() {
+            var departmentId = $(this).val();
+            $.ajax({
+                url: '/students/filter/',
+                type: 'GET',
+                data: { 'department_id': departmentId },
+                success: function(data) {
+                    $('#food-menu-list').html(data);
+                }
+            });
+        });
+    });
+  </script> -->
 
 </body>
 

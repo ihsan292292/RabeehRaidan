@@ -96,20 +96,17 @@ WSGI_APPLICATION = 'rabeehPrj.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# DATABASES = {
-#     'default': dj_database_url.config(default='postgres://rabeehdb_user:IJChhNBhkVXxG82O43aJbr92gVxBpZTr@dpg-cpc9mq6ct0pc738mo2n0-a.oregon-postgres.render.com/rabeehdb')
-# }
-
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://rabeehdb_fp9y_user:izFtMH2JiBATA3ker0VlGdXcqm3fM2IR@dpg-cphhlvgl6cac73a1dang-a.oregon-postgres.render.com/rabeehdb_fp9y')
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+
+# DATABASES = {
+#     'default': dj_database_url.config(default='postgres://rabeehdb_fp9y_user:izFtMH2JiBATA3ker0VlGdXcqm3fM2IR@dpg-cphhlvgl6cac73a1dang-a.oregon-postgres.render.com/rabeehdb_fp9y')
+# }
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 

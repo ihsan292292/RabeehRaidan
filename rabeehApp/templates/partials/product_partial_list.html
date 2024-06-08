@@ -7,15 +7,12 @@
     <h2 class="h2 section-title">Our Delicious <span class="span">Foods</span></h2>
     <p class="section-text">Food is any substance consumed to provide nutritional support for an organism.</p>
     <ul class="filter-list">
-      <form id="branchForm" method="post" action="{% url 'productdisplay' %}">
-        {% csrf_token %}
-        <select id="branches" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" style="height: 50px;" name="branch_id" onchange="document.getElementById('branchForm').submit();">
-            <option>Select a branch</option>
-            {% for branch in branches %}
-            <option value="{{ branch.id }}" {% if branch.id|stringformat:"s" == selected_branch_id %}selected{% endif %}>{{ branch.location }}</option>
-            {% endfor %}
-        </select>
-    </form>
+      <select id="branches" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" style="height: 50px;">
+        <option selected value="all">All</option>
+        {% for branch in branches %}
+        <option value="{{ branch.id }}">{{ branch.location }}</option>
+        {% endfor %}
+      </select>
     </ul>
     <ul class="food-menu-list" id="food-menu-list">
       {% for prod in product %}
@@ -24,7 +21,7 @@
           <div class="card-banner" data-aos="zoom-in">
             <img src="{% static '/assets/images/food-menu-1.png' %}" width="300" height="300" loading="lazy" alt="{{ prod.name }}" class="w-100">
             <div class="badge">-15%</div>
-            <a href="{% url 'add_cart' id=prod.id %}"><button class="btn food-menu-btn">Order Now</button></a>
+            <button class="btn food-menu-btn">Order Now</button>
           </div>
           <div class="wrapper">
             <p class="category">Chicken</p>
@@ -48,7 +45,25 @@
     </ul>
   </div>
 </section>
-
+<script>
+  $(document).ready(function() {
+     $('#branches').change(function() {
+         var branchId = $(this).val();
+         $.ajax({
+             url: '{% url "filter_products" %}',  // Ensure this matches your URL configuration
+             type: 'GET',
+             data: { 'branch_id': branchId },  // Correct parameter name
+             success: function(data) {
+                 $('#food-menu-list').html(data);
+             },
+             error: function(xhr, status, error) {
+                 console.error('Error fetching filtered products:', error);
+                 // Optionally, you can show an error message to the user
+             }
+         });
+     });
+ });
+ </script>
 {% include 'include/footer.html'%}
 
 
